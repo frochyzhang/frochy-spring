@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class FrochyApplicationContext {
     private static final String SUFFIX_DOT_CLASS = ".class";
     private static final String SEPARATOR_DOT = ".";
-    private final Class configClass;
 
     private static final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new ConcurrentHashMap<>(16);
     private static Map<String, Object> BEAN_MAP = new ConcurrentHashMap<>(16);
@@ -23,8 +22,6 @@ public class FrochyApplicationContext {
     private static final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
 
     public FrochyApplicationContext(Class configClass) {
-        this.configClass = configClass;
-
         if (configClass.isAnnotationPresent(ComponentScan.class)) {
             ComponentScan componentScan = (ComponentScan) configClass.getAnnotation(ComponentScan.class);
             String basePackages = componentScan.value();
