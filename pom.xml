@@ -13,6 +13,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <scm>
+        <connection>scm:git:git://github.com/frochyzhang/frochy-spring.git</connection>
+        <developerConnection>scm:git:ssh://github.com/frochyzhang/frochy-spring.git</developerConnection>
+        <url>http://github.com/frochyzhang/frochy-spring/tree/master</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -53,4 +59,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <generateReleasePoms>false</generateReleasePoms>
+                    <arguments>-DskipTests</arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
