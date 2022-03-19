@@ -26,6 +26,9 @@ public class UserService implements BeanNameAware, InitializingBean {
         this.beanName = beanName;
     }
 
+    public String getBeanName() {
+        return this.beanName;
+    }
     @Override
     public void afterPropertiesSet() {
         log.info("spring调用InitializingBean");
