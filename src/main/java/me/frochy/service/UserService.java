@@ -1,8 +1,10 @@
 package me.frochy.service;
 
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import me.frochy.spring.*;
 
+@Slf4j
 @ToString
 @Component
 @LazyInit
@@ -14,8 +16,8 @@ public class UserService implements BeanNameAware, InitializingBean {
     private String beanName;
 
     public void test() {
-        System.out.println("hello world!");
-        System.out.println(orderService);
+        log.info("hello world!");
+        log.info("orderService:{}",orderService);
     }
 
 
@@ -26,6 +28,6 @@ public class UserService implements BeanNameAware, InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        System.out.println("spring调用InitializingBean");
+        log.info("spring调用InitializingBean");
     }
 }

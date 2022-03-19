@@ -1,5 +1,6 @@
 package me.frochy.spring;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.Introspector;
@@ -10,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class FrochyApplicationContext {
     private final String SUFFIX_DOT_CLASS = ".class";
     private final String SEPARATOR_DOT = ".";
@@ -33,7 +35,7 @@ public class FrochyApplicationContext {
             URL url = classLoader.getResource(finalBasePackages);
 
             File file = new File(url.getFile());
-            System.out.println(file);
+            log.info("配置路径扫描：{}", file);
 
             List<File> files = searchFile(file, SUFFIX_DOT_CLASS);
 

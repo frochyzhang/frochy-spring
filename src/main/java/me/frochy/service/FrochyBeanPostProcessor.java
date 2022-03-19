@@ -1,14 +1,16 @@
 package me.frochy.service;
 
+import lombok.extern.slf4j.Slf4j;
 import me.frochy.spring.BeanPostProcessor;
 import me.frochy.spring.Component;
 
+@Slf4j
 @Component
 public class FrochyBeanPostProcessor implements BeanPostProcessor {
     @Override
     public void postProcessBeforeInitialization(String beanName, Object bean) {
         if (beanName.equals("userService")) {
-            System.out.println("调用postProcessBeforeInitialization");
+            log.info("调用postProcessBeforeInitialization");
         }
     }
 
@@ -18,11 +20,11 @@ public class FrochyBeanPostProcessor implements BeanPostProcessor {
 //            Object o = Proxy.newProxyInstance(FrochyBeanPostProcessor.class.getClassLoader(), bean.getClass().getInterfaces(), new InvocationHandler() {
 //                @Override
 //                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-//                    System.out.println("切面逻辑");
+//                    log.info("切面逻辑");
 //                    return null;
 //                }
 //            });
-            System.out.println("调用postProcessAfterInitialization");
+            log.info("调用postProcessAfterInitialization");
 //            return o;
         }
 //        return bean;
