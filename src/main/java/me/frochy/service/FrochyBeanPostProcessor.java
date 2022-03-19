@@ -9,14 +9,14 @@ import me.frochy.spring.Component;
 public class FrochyBeanPostProcessor implements BeanPostProcessor {
     @Override
     public void postProcessBeforeInitialization(String beanName, Object bean) {
-        if (beanName.equals("userService")) {
+        if ("userService".equals(beanName)) {
             log.info("调用postProcessBeforeInitialization");
         }
     }
 
     @Override
     public void postProcessAfterInitialization(String beanName, Object bean) {
-        if (beanName.equals("userService")) {
+        if ("userService".equals(beanName)) {
 //            Object o = Proxy.newProxyInstance(FrochyBeanPostProcessor.class.getClassLoader(), bean.getClass().getInterfaces(), new InvocationHandler() {
 //                @Override
 //                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

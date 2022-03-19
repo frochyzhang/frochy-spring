@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class FrochyApplicationContext {
-    private final String SUFFIX_DOT_CLASS = ".class";
-    private final String SEPARATOR_DOT = ".";
-    private Class configClass;
+    private static final String SUFFIX_DOT_CLASS = ".class";
+    private static final String SEPARATOR_DOT = ".";
+    private final Class configClass;
 
     private static final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new ConcurrentHashMap<>(16);
     private static Map<String, Object> BEAN_MAP = new ConcurrentHashMap<>(16);
 
-    private List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
+    private static final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
 
     public FrochyApplicationContext(Class configClass) {
         this.configClass = configClass;
@@ -31,7 +31,7 @@ public class FrochyApplicationContext {
 
             String finalBasePackages = basePackages.replace(SEPARATOR_DOT, "/");
 
-            ClassLoader classLoader = this.getClass().getClassLoader();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             URL url = classLoader.getResource(finalBasePackages);
 
             File file = new File(url.getFile());
@@ -52,7 +52,7 @@ public class FrochyApplicationContext {
                                 BeanPostProcessor o = ((BeanPostProcessor) loadClass.newInstance());
                                 beanPostProcessorList.add(o);
                             } catch (InstantiationException | IllegalAccessException e) {
-                                e.printStackTrace();
+                                log.error("处理异常", e);
                             }
                         }
 
@@ -68,7 +68,7 @@ public class FrochyApplicationContext {
                         BEAN_DEFINITION_MAP.put(getBeanName(loadClass), beanDefinition);
                     }
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    log.error("处理异常",e);
                 }
             });
         }
@@ -92,7 +92,7 @@ public class FrochyApplicationContext {
                         try {
                             f.set(instance, getBean(f.getName()));
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            log.error("处理异常",e);
                         }
                     });
 
@@ -116,7 +116,7 @@ public class FrochyApplicationContext {
 
             return instance;
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
+            log.error("处理异常",e);
         }
         return null;
     }
@@ -160,7 +160,7 @@ public class FrochyApplicationContext {
 
         String scope = beanDefinition.getScope();
 
-        if (scope.equals("singleton")) {
+        if ("singleton".equals(scope)) {
             Object o = BEAN_MAP.get(beanName);
             if (o == null) {
                 o = createBean(BEAN_DEFINITION_MAP.get(beanName));
