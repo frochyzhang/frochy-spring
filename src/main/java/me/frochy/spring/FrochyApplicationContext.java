@@ -65,7 +65,7 @@ public class FrochyApplicationContext {
                         BEAN_DEFINITION_MAP.put(getBeanName(loadClass), beanDefinition);
                     }
                 } catch (ClassNotFoundException e) {
-                    log.error("处理异常",e);
+                    log.error("处理异常", e);
                 }
             });
         }
@@ -89,7 +89,7 @@ public class FrochyApplicationContext {
                         try {
                             f.set(instance, getBean(f.getName()));
                         } catch (IllegalAccessException e) {
-                            log.error("处理异常",e);
+                            log.error("处理异常", e);
                         }
                     });
 
@@ -113,7 +113,7 @@ public class FrochyApplicationContext {
 
             return instance;
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            log.error("处理异常",e);
+            log.error("处理异常", e);
         }
         return null;
     }
@@ -136,7 +136,8 @@ public class FrochyApplicationContext {
      */
     public static List<File> searchFile(File folder, final String keyWord) {
         List<File> fileList = Arrays.stream(Objects.requireNonNull(folder.listFiles(pathname -> pathname.isDirectory()
-                || (pathname.isFile() && pathname.getName().toLowerCase().contains(keyWord.toLowerCase()))))).toList();
+                        || (pathname.isFile() && pathname.getName().toLowerCase().contains(keyWord.toLowerCase())))))
+                .collect(Collectors.toList());
 
         List<File> result = new ArrayList<>();
 
